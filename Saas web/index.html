@@ -4,409 +4,435 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Odoo Integrations | AI Architecture</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <title>Odoo Integrations | Asistente IA para ERP</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Integra un asistente IA en tu Odoo ERP en 2 minutos. Conecta tu empresa a un chatbot SaaS multi-tenant con NLP, CRM y gestión de inventario mediante JSON-RPC.">
+    <meta name="keywords" content="odoo, saas, empresa, software, erp, marketing, cloud, seguridad, servicios, online, crm, gestión, soporte, nube, negocio, éxito">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://saas-odoo.vercel.app/">
+    <meta property="og:title" content="Odoo Integrations — Asistente IA para tu ERP">
+    <meta property="og:description" content="Chatbot SaaS para Odoo: gestión de clientes, stock y presupuestos con IA. Onboarding en 2 minutos.">
+    <meta property="og:image" content="https://saas-odoo.vercel.app/og-image.png">
+    <meta property="og:image:alt" content="Panel de integración de asistente IA para Odoo ERP">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://saas-odoo.vercel.app/">
+    <meta property="twitter:title" content="Odoo Integrations — Asistente IA para tu ERP">
+    <meta property="twitter:description" content="Chatbot SaaS para Odoo: gestión de clientes, stock y presupuestos con IA. Onboarding en 2 minutos.">
+    <meta property="twitter:image" content="https://saas-odoo.vercel.app/og-image.png">
+
+    <!-- Canonical URL & Hreflang -->
+    <link rel="canonical" href="https://saas-odoo.vercel.app/">
+    <link rel="alternate" hreflang="es" href="https://saas-odoo.vercel.app/">
+    <link rel="alternate" hreflang="x-default" href="https://saas-odoo.vercel.app/">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    
+    <!-- Preconnect Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <!-- Custom Styles -->
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Form-specific overrides adapted to the B2B dark theme */
-        .form-input {
-            width: 100%;
-            background: #020617;
-            border: 1px solid #1e293b;
-            border-radius: 6px;
-            padding: 10px 12px;
-            font-size: 13.5px;
-            font-family: 'Inter', sans-serif;
-            color: #f8fafc;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            outline: none;
-        }
 
-        .form-input::placeholder { color: #334155; }
-
-        .form-input:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .form-input.mono {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12.5px;
-            letter-spacing: 0.02em;
-        }
-
-        .form-textarea {
-            resize: vertical;
-            min-height: 88px;
-            line-height: 1.6;
-        }
-
-        .step-bar {
-            height: 2px;
-            border-radius: 1px;
-            flex: 1;
-            background: #1e293b;
-            transition: background 0.4s ease;
-        }
-
-        .step-bar.active { background: #3b82f6; }
-        .step-bar.done { background: #10b981; }
-
-        .submit-btn {
-            width: 100%;
-            padding: 12px;
-            background: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            font-family: 'Inter', sans-serif;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            letter-spacing: -0.01em;
-            margin-top: 8px;
-        }
-
-        .submit-btn:hover { background: #60a5fa; transform: translateY(-1px); }
-        .submit-btn:active { transform: translateY(0); }
-        .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-
-        .copy-btn {
-            width: 100%;
-            padding: 10px;
-            background: transparent;
-            color: #60a5fa;
-            border: 1px solid #1e293b;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            font-family: 'Inter', sans-serif;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .copy-btn:hover { background: rgba(59, 130, 246, 0.06); border-color: #3b82f6; }
-        .copy-btn.copied { color: #10b981; border-color: rgba(16, 185, 129, 0.4); }
-
-        .spinner {
-            width: 14px;
-            height: 14px;
-            border: 2px solid rgba(255,255,255,0.25);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            display: none;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-        .code-block {
-            background: #020617;
-            border: 1px solid #1e293b;
-            border-radius: 6px;
-            padding: 14px 16px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11.5px;
-            color: #7dd3fc;
-            line-height: 1.7;
-            overflow-x: auto;
-            white-space: pre;
-            margin-bottom: 10px;
-        }
-
-        .error-banner {
-            background: rgba(239, 68, 68, 0.06);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            border-radius: 6px;
-            padding: 10px 14px;
-            font-size: 13px;
-            color: #fca5a5;
-            margin-top: 14px;
-            display: none;
-        }
-    </style>
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Odoo Integrations",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Plataforma SaaS para integrar asistentes de IA en Odoo ERP.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      }
+    }
+    </script>
 </head>
 
-<body class="relative bg-[#030712]">
+<body>
 
-    <!-- Background Grid -->
-    <div class="absolute inset-0 bg-grid z-0 h-[60vh] pointer-events-none"></div>
+    <div class="bg-grid"></div>
 
-    <!-- Header / Navigation -->
-    <header class="py-5 px-8 flex justify-between items-center relative z-50 border-b border-[#1e293b] bg-[#030712]/90 backdrop-blur-md">
-        <div class="flex items-center gap-3">
-            <svg class="w-6 h-6 text-[#3b82f6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2"
-                    d="M4 7v10c0 2 1.5 3 3.5 3h9c2 0 3.5-1 3.5-3V7c0-2-1.5-3-3.5-3h-9C5.5 4 4 5 4 7zm0 4h16m-8 4h3">
-                </path>
+    <header>
+        <a href="/" class="header-brand">
+            <svg class="brand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+                <path d="M4 7v10c0 2 1.5 3 3.5 3h9c2 0 3.5-1 3.5-3V7c0-2-1.5-3-3.5-3h-9C5.5 4 4 5 4 7zm0 4h16m-8 4h3"></path>
             </svg>
-            <h1 class="text-lg font-semibold tracking-wide text-white">Odoo Integrations</h1>
-        </div>
-        <nav class="hidden md:flex gap-6">
+            <span class="brand-name">Odoo Integrations</span>
+        </a>
+        <nav>
             <a href="#arquitectura" class="nav-link">Arquitectura</a>
             <a href="#flujo" class="nav-link">Flujo de Datos</a>
-            <a href="#registro" class="nav-link text-[#3b82f6]">Registrarse</a>
+            <a href="#beneficios" class="nav-link">Beneficios</a>
+            <a href="#faq" class="nav-link">FAQ</a>
+            <a href="#registro" class="nav-link nav-link-accent">Registrarse</a>
         </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section class="min-h-[70vh] flex flex-col items-center justify-center pt-20 px-8 relative z-10 border-b border-[#1e293b] text-center">
-        <div class="max-w-4xl mx-auto">
-            <div class="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded border border-[#1e293b] bg-[#0f172a] text-xs font-medium text-[#94a3b8] tracking-wide uppercase">
-                <span class="w-2 h-2 rounded-full bg-[#10b981]" style="animation: blink 2s infinite;"></span>
-                Sistema Operativo
+    <main>
+        <!-- Hero Section -->
+        <section class="section-hero">
+            <div class="container-lg">
+                <div class="badge">
+                    <span class="badge-dot"></span>
+                    Sistema Operativo en la Nube
+                </div>
+                <h1 class="hero-title">
+                    Integración de Asistente IA <br> para Odoo ERP.
+                </h1>
+                <p class="hero-subtitle">
+                    Despliegue de infraestructura automatizada. Conexión segura a la base de datos a través de API JSON-RPC,
+                    procesamiento de lenguaje natural y persistencia de memoria para potenciar el éxito de tu negocio online.
+                </p>
+                <a href="#registro" class="btn-primary">
+                    Configurar mi chatbot
+                    <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </a>
             </div>
-            <h2 class="text-4xl md:text-6xl font-bold mb-6 text-white leading-tight tracking-tight">
-                Integración de Asistente IA <br> para Odoo ERP.
-            </h2>
-            <p class="text-lg md:text-xl text-[#94a3b8] mb-10 max-w-2xl mx-auto leading-relaxed">
-                Despliegue de infraestructura automatizada. Conexión segura a la base de datos a través de API JSON-RPC,
-                procesamiento de lenguaje natural y persistencia de memoria.
-            </p>
-            <a href="#registro" class="inline-flex items-center gap-2 px-6 py-3 bg-[#3b82f6] text-white text-sm font-semibold rounded-md hover:bg-[#60a5fa] transition-colors duration-200">
-                Configurar mi chatbot
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-            </a>
-        </div>
-    </section>
+        </section>
 
-    <!-- Arquitectura Section -->
-    <section id="arquitectura" class="py-20 px-8 relative z-10">
-        <div class="max-w-6xl mx-auto">
-            <h3 class="text-2xl font-semibold mb-10 text-white text-center">Componentes del Sistema</h3>
+        <!-- Arquitectura Section -->
+        <section id="arquitectura" class="section">
+            <div class="container-lg">
+                <h2 class="section-title">Componentes del Sistema</h2>
+                <p class="section-subtitle">Arquitectura cloud robusta diseñada para seguridad, velocidad y escalabilidad empresarial.</p>
 
-            <div class="grid md:grid-cols-3 gap-6">
-                <!-- Component 1 -->
-                <div class="b2b-card p-6 accent-top">
-                    <h4 class="text-lg font-medium text-white mb-2">Conexión Odoo</h4>
-                    <p class="text-sm text-[#94a3b8] leading-relaxed">
-                        Consultas en tiempo real de clientes, inventario y presupuestos a través de Odoo API JSON-RPC
-                        utilizando credenciales aisladas por tenant.
-                    </p>
-                </div>
+                <div class="grid-3">
+                    <!-- Component 1 -->
+                    <div class="b2b-card b2b-card-accent">
+                        <h3 class="card-title">Conexión Odoo ERP</h3>
+                        <p class="card-text">
+                            Consultas en tiempo real de clientes, inventario y presupuestos a través de Odoo API JSON-RPC
+                            utilizando credenciales aisladas por tenant para máxima seguridad.
+                        </p>
+                    </div>
 
-                <!-- Component 2 -->
-                <div class="b2b-card p-6">
-                    <h4 class="text-lg font-medium text-white mb-2">Motor NLP</h4>
-                    <p class="text-sm text-[#94a3b8] leading-relaxed">
-                        Implementación de modelos de lenguaje grandes (LLMs) para la orquestación y el procesamiento de
-                        intenciones de usuarios y empleados.
-                    </p>
-                </div>
+                    <!-- Component 2 -->
+                    <div class="b2b-card">
+                        <h3 class="card-title">Motor NLP & AI Cloud</h3>
+                        <p class="card-text">
+                            Implementación de modelos de lenguaje grandes (LLMs) en la nube para la orquestación y el procesamiento de
+                            intenciones de usuarios y soporte a empleados.
+                        </p>
+                    </div>
 
-                <!-- Component 3 -->
-                <div class="b2b-card p-6">
-                    <h4 class="text-lg font-medium text-white mb-2">Persistencia</h4>
-                    <p class="text-sm text-[#94a3b8] leading-relaxed">
-                        Almacenamiento de historiales de conversación y recuperación de contexto (RAG) empleando bases
-                        de datos PostgreSQL y Supabase.
-                    </p>
+                    <!-- Component 3 -->
+                    <div class="b2b-card">
+                        <h3 class="card-title">Persistencia & CRM</h3>
+                        <p class="card-text">
+                            Almacenamiento de historiales de conversación, gestión de leads y recuperación de contexto (RAG) empleando bases
+                            de datos PostgreSQL y Supabase.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Workflow Section -->
-    <section id="flujo" class="py-20 px-8 relative z-10 border-t border-[#1e293b] bg-[#020617]">
-        <div class="max-w-6xl mx-auto">
-            <div class="flex flex-col lg:flex-row gap-12">
-                <div class="lg:w-1/2">
-                    <h3 class="text-2xl font-semibold mb-6 text-white">Flujo de Datos (Workflow)</h3>
-                    <p class="text-[#94a3b8] mb-8 text-base leading-relaxed">
+        <!-- Beneficios Section -->
+        <section id="beneficios" class="section section-alt">
+            <div class="container-md">
+                <h2 class="section-title">Impulsa tu Empresa con IA</h2>
+                <p class="section-subtitle">Descubre cómo nuestro software transforma la gestión y el soporte al cliente de tu negocio online.</p>
+
+                <div class="grid-2">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🚀</div>
+                        <div>
+                            <h3 class="benefit-title">Soporte 24/7 Automatizado</h3>
+                            <p class="benefit-text">Reduce los tiempos de respuesta y mejora la satisfacción del cliente resolviendo dudas frecuentes directamente con datos de tu ERP.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🔒</div>
+                        <div>
+                            <h3 class="benefit-title">Seguridad Enterprise</h3>
+                            <p class="benefit-text">Tus datos nunca entrenan modelos públicos. Arquitectura multi-tenant con cifrado de extremo a extremo para total tranquilidad.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">📈</div>
+                        <div>
+                            <h3 class="benefit-title">Gestión Comercial Inteligente</h3>
+                            <p class="benefit-text">Captura leads cualificados, genera oportunidades en tu CRM Odoo y aumenta el éxito de tus campañas de marketing automáticamente.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">⚡</div>
+                        <div>
+                            <h3 class="benefit-title">Integración sin Código</h3>
+                            <p class="benefit-text">Implementa el software en minutos sin necesidad de equipo de desarrollo. Servicios en la nube listos para usar mediante un simple script.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflow Section -->
+        <section id="flujo" class="section">
+            <div class="container-lg flow-layout">
+                <div class="flow-content">
+                    <h2 class="section-title">Flujo de Datos (Workflow)</h2>
+                    <p class="section-subtitle" style="text-align: left; margin: 0 0 2rem 0;">
                         El sistema opera bajo un entorno de ejecución seguro (n8n). Cada solicitud entrante se procesa
                         bajo el siguiente esquema:
                     </p>
-                    <div class="space-y-6">
+                    <div class="flow-steps">
                         <div>
-                            <h5 class="text-white text-sm font-medium mb-1">1. Identificación Multi-Tenant</h5>
-                            <p class="text-sm text-[#64748b]">Extracción del <code>tenant_id</code> del payload para aislar entornos.</p>
+                            <h3 class="flow-step-title">1. Identificación Multi-Tenant</h3>
+                            <p class="flow-step-text">Extracción del <code>tenant_id</code> del payload para aislar entornos.</p>
                         </div>
                         <div>
-                            <h5 class="text-white text-sm font-medium mb-1">2. Recuperación de Entorno</h5>
-                            <p class="text-sm text-[#64748b]">Consulta a Supabase para recuperar la URL, BD y API Key específicos del cliente.</p>
+                            <h3 class="flow-step-title">2. Recuperación de Entorno</h3>
+                            <p class="flow-step-text">Consulta a Supabase para recuperar la URL, BD y API Key específicos del cliente.</p>
                         </div>
                         <div>
-                            <h5 class="text-white text-sm font-medium mb-1">3. Ejecución Autónoma</h5>
-                            <p class="text-sm text-[#64748b]">El agente IA ejecuta herramientas dinámicas contra Odoo
+                            <h3 class="flow-step-title">3. Ejecución Autónoma</h3>
+                            <p class="flow-step-text">El agente IA ejecuta herramientas dinámicas contra Odoo
                                 (ej. <code>search_read</code> sobre <code>res.partner</code>) y formula la respuesta final.</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="lg:w-1/2 w-full">
-                    <div class="terminal-block p-6 text-sm text-[#94a3b8] shadow-2xl">
-                        <div class="flex gap-2 mb-4">
-                            <div class="w-3 h-3 rounded-full bg-[#ef4444]"></div>
-                            <div class="w-3 h-3 rounded-full bg-[#eab308]"></div>
-                            <div class="w-3 h-3 rounded-full bg-[#22c55e]"></div>
+                <div class="flow-terminal">
+                    <div class="terminal-block shadow-2xl">
+                        <div class="terminal-dots">
+                            <div class="dot-red"></div>
+                            <div class="dot-yellow"></div>
+                            <div class="dot-green"></div>
                         </div>
-                        <div class="space-y-2">
-                            <div><span class="text-[#3b82f6]">INFO</span> [Agent] Incoming webhook triggered</div>
-                            <div><span class="text-[#3b82f6]">INFO</span> [Supabase] Fetching config for tenant_id: <span class="text-[#10b981]">1</span></div>
-                            <div><span class="text-[#3b82f6]">INFO</span> [Tool] Executing <span class="text-white">Validar_usuario_odoo</span></div>
-                            <div><span class="text-[#eab308]">WARN</span> [RPC] Requesting res.partner data</div>
-                            <div class="pt-2 border-t border-[#1e293b] mt-2">
-                                <span class="text-[#a855f7]">Payload response:</span><br>
-                                <pre class="mt-2 text-[#cbd5e1] overflow-x-auto">
-[
+                        <div class="terminal-lines">
+                            <div><span class="t-info">INFO</span> [Agent] Incoming webhook triggered</div>
+                            <div><span class="t-info">INFO</span> [Supabase] Fetching config for tenant_id: <span class="t-ok">1</span></div>
+                            <div><span class="t-info">INFO</span> [Tool] Executing <span class="t-light">Validar_usuario_odoo</span></div>
+                            <div><span class="t-warn">WARN</span> [RPC] Requesting res.partner data</div>
+                            <div class="terminal-divider">
+                                <span class="t-purple">Payload response:</span><br>
+                                <div class="terminal-pre">[
   {
     "name": "Cliente Demo",
     "email": "demo@empresa.com",
     "category_id": [1, "Cliente Activo"]
   }
-]</pre>
+]</div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registration Section -->
+        <section id="registro" class="section section-dark">
+            <div class="container-lg reg-layout">
+
+                <!-- Left: copy -->
+                <div class="reg-copy">
+                    <div class="badge">Onboarding</div>
+                    <h2 class="reg-title">Configura tu chatbot en 2 minutos.</h2>
+                    <p class="reg-text">
+                        Introduce las credenciales de tu Odoo y el software generará automáticamente el código de integración listo para incrustar en tu web corporativa.
+                    </p>
+                    <ul class="reg-list">
+                        <li><div class="list-dot"></div>Entorno aislado por tenant</li>
+                        <li><div class="list-dot"></div>Credenciales cifradas en Supabase</li>
+                        <li><div class="list-dot"></div>Código embed generado al instante</li>
+                    </ul>
+                </div>
+
+                <!-- Right: form card -->
+                <div class="reg-form-col">
+                    <div class="b2b-card">
+                        
+                        <!-- Step progress -->
+                        <div class="step-bars">
+                            <div class="step-bar active" id="dot1"></div>
+                            <div class="step-bar" id="dot2"></div>
+                            <div class="step-bar" id="dot3"></div>
+                            <div class="step-bar" id="dot4"></div>
+                            <div class="step-bar" id="dot5"></div>
+                        </div>
+
+                        <!-- Form fields -->
+                        <form id="formulario" onsubmit="event.preventDefault(); registrar();">
+                            
+                            <div class="form-field">
+                                <label for="nombre_empresa" class="form-label">Nombre de la empresa</label>
+                                <input id="nombre_empresa" type="text" placeholder="Ej: Acme S.L." class="form-input" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="odoo_url" class="form-label">URL de tu Odoo</label>
+                                <input id="odoo_url" type="url" placeholder="https://odoo.miempresa.com" class="form-input mono" required>
+                            </div>
+
+                            <div class="form-grid-2">
+                                <div>
+                                    <label for="odoo_db" class="form-label">Base de datos</label>
+                                    <input id="odoo_db" type="text" placeholder="nombre_bbdd" class="form-input mono" required>
+                                </div>
+                                <div>
+                                    <label for="odoo_api_key" class="form-label">API Key</label>
+                                    <input id="odoo_api_key" type="password" placeholder="••••••••••••••••" class="form-input mono" required>
+                                </div>
+                            </div>
+                            <p class="form-hint">La API Key la encuentras en Ajustes → Técnico → API Keys</p>
+
+                            <div class="form-field" style="margin-bottom: 1.5rem;">
+                                <label for="system_prompt" class="form-label">Personalidad del bot (Opcional)</label>
+                                <textarea id="system_prompt" placeholder="Ej: Eres un agente de soporte amable que ayuda a clientes con sus pedidos y consultas de stock." class="form-input form-textarea"></textarea>
+                            </div>
+
+                            <button type="submit" class="submit-btn" id="btn-registrar">
+                                <span id="btn-text">Crear mi chatbot</span>
+                                <span class="spinner" id="spinner"></span>
+                            </button>
+
+                            <div class="error-banner" id="error-msg"></div>
+                        </form>
+
+                        <!-- Result panel -->
+                        <div style="display:none" id="resultado">
+                            <div class="result-header">
+                                <div class="result-check-icon">✓</div>
+                                <div>
+                                    <h3 class="result-title">¡Chatbot creado!</h3>
+                                    <p class="result-subtitle">Copia el código e incorpóralo antes del &lt;/body&gt;</p>
+                                </div>
+                            </div>
+
+                            <div class="tenant-row">
+                                <span class="tenant-label">Tu ID único</span>
+                                <span class="tenant-value" id="tenant-id-value">—</span>
+                            </div>
+
+                            <div class="code-divider"></div>
+
+                            <p class="code-label">Código de implementación</p>
+                            <div class="code-block" id="embed-code"></div>
+                            
+                            <button class="copy-btn" id="btn-copy" onclick="copiar()">
+                                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                                <span>Copiar código</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="section">
+            <div class="container-md">
+                <h2 class="section-title">Preguntas Frecuentes</h2>
+                <p class="section-subtitle">Resolvemos tus dudas sobre nuestra plataforma SaaS de integración.</p>
+                
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <button class="faq-btn" onclick="toggleFaq(this)">
+                            ¿Qué es Odoo Integrations?
+                            <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-inner">
+                                Odoo Integrations es una plataforma SaaS cloud que permite a cualquier empresa conectar su ERP Odoo con modelos de Inteligencia Artificial. Facilita la creación de chatbots inteligentes capaces de consultar inventario, crear leads en el CRM y dar soporte a clientes en tiempo real, operando de forma online 24/7.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-btn" onclick="toggleFaq(this)">
+                            ¿Es seguro conectar mi ERP a la nube?
+                            <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-inner">
+                                La seguridad es nuestra prioridad. Utilizamos arquitectura multi-tenant donde cada empresa opera en un entorno completamente aislado. Las credenciales de la API se almacenan cifradas en nuestra base de datos segura y la comunicación se realiza exclusivamente vía HTTPS.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-btn" onclick="toggleFaq(this)">
+                            ¿Necesito conocimientos de programación?
+                            <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-inner">
+                                No, nuestra solución SaaS está diseñada para ser "plug-and-play". Solo necesitas generar una API Key desde tu panel de Odoo, rellenar nuestro formulario de registro, y copiar el fragmento de código HTML en tu página web. Todo el procesamiento NLP se gestiona automáticamente en nuestros servidores.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div>
+                    <h3 style="color: var(--text); font-weight: 600; margin-bottom: 0.5rem;">Odoo Integrations Architecture</h3>
+                    <p>Potenciando negocios con IA.</p>
+                </div>
+                <nav class="footer-nav">
+                    <a href="#arquitectura" class="footer-link">Arquitectura</a>
+                    <a href="#flujo" class="footer-link">Workflow</a>
+                    <a href="#beneficios" class="footer-link">Beneficios</a>
+                    <a href="#faq" class="footer-link">FAQ</a>
+                </nav>
+            </div>
+            
+            <div class="footer-bottom" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                <p>&copy; 2026 Odoo Integrations SaaS. Todos los derechos reservados.</p>
+                <div class="footer-status">
+                    System Status: <span class="status-dot">● Online</span>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Registration Form Section -->
-    <section id="registro" class="py-20 px-8 relative z-10 border-t border-[#1e293b]">
-        <div class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-16 items-start">
-
-            <!-- Left: copy -->
-            <div class="lg:w-2/5">
-                <div class="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded border border-[#1e293b] bg-[#0f172a] text-xs font-medium text-[#94a3b8] tracking-wide uppercase">
-                    Onboarding
-                </div>
-                <h3 class="text-3xl font-bold text-white mb-4 leading-tight tracking-tight">Configura tu chatbot en 2 minutos.</h3>
-                <p class="text-[#64748b] text-base leading-relaxed mb-8">
-                    Introduce las credenciales de tu Odoo y el sistema generará automáticamente el código de integración listo para incrustar en tu web.
-                </p>
-                <ul class="space-y-3 text-sm text-[#64748b]">
-                    <li class="flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 rounded-full bg-[#10b981] shrink-0"></span>
-                        Entorno aislado por tenant
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 rounded-full bg-[#10b981] shrink-0"></span>
-                        Credenciales cifradas en Supabase
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 rounded-full bg-[#10b981] shrink-0"></span>
-                        Código embed generado al instante
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Right: form card -->
-            <div class="lg:w-3/5 w-full">
-                <div class="b2b-card p-8">
-
-                    <!-- Step progress -->
-                    <div class="flex gap-2 mb-8">
-                        <div class="step-bar active" id="dot1"></div>
-                        <div class="step-bar" id="dot2"></div>
-                        <div class="step-bar" id="dot3"></div>
-                        <div class="step-bar" id="dot4"></div>
-                        <div class="step-bar" id="dot5"></div>
-                    </div>
-
-                    <!-- Form fields -->
-                    <div id="formulario">
-
-                        <div class="mb-5">
-                            <label class="block text-xs font-medium text-[#64748b] mb-2 tracking-wide uppercase">Nombre de la empresa</label>
-                            <input id="nombre_empresa" type="text" placeholder="Ej: Acme S.L." class="form-input">
-                        </div>
-
-                        <div class="mb-5">
-                            <label class="block text-xs font-medium text-[#64748b] mb-2 tracking-wide uppercase">URL de tu Odoo</label>
-                            <input id="odoo_url" type="text" placeholder="http://odoo.miempresa.com" class="form-input mono">
-                        </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-                            <div>
-                                <label class="block text-xs font-medium text-[#64748b] mb-2 tracking-wide uppercase">Base de datos</label>
-                                <input id="odoo_db" type="text" placeholder="nombre_bbdd" class="form-input mono">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-[#64748b] mb-2 tracking-wide uppercase">API Key</label>
-                                <input id="odoo_api_key" type="password" placeholder="••••••••••••••••" class="form-input mono">
-                            </div>
-                        </div>
-                        <p class="text-xs text-[#475569] -mt-3 mb-5">La API Key la encuentras en Ajustes → Técnico → API Keys</p>
-
-                        <div class="mb-6">
-                            <label class="block text-xs font-medium text-[#64748b] mb-2 tracking-wide uppercase">Personalidad del bot</label>
-                            <textarea id="system_prompt" placeholder="Ej: Eres un agente de soporte amable que ayuda a clientes con sus pedidos y consultas de stock." class="form-input form-textarea"></textarea>
-                        </div>
-
-                        <button class="submit-btn" id="btn-registrar" onclick="registrar()">
-                            <span id="btn-text">Crear mi chatbot</span>
-                            <span class="spinner" id="spinner"></span>
-                        </button>
-
-                        <div class="error-banner" id="error-msg"></div>
-                    </div>
-
-                    <!-- Result panel -->
-                    <div style="display:none" id="resultado">
-                        <div class="flex items-center gap-3 mb-6">
-                            <div class="w-9 h-9 bg-[#10b981]/10 border border-[#10b981]/25 rounded-full flex items-center justify-center text-[#10b981] text-base">✓</div>
-                            <div>
-                                <h4 class="text-white font-semibold text-base leading-tight">¡Chatbot creado!</h4>
-                                <p class="text-xs text-[#64748b]">Copia el código e incorpóralo antes del &lt;/body&gt;</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-3 bg-[#10b981]/05 border border-[#10b981]/15 rounded-md px-4 py-3 mb-6">
-                            <span class="text-xs text-[#10b981] font-medium uppercase tracking-wide">Tu ID único</span>
-                            <span class="text-[#10b981] font-mono text-sm font-medium" id="tenant-id-value">—</span>
-                        </div>
-
-                        <div class="border-t border-[#1e293b] my-5"></div>
-
-                        <p class="text-xs text-[#64748b] uppercase tracking-wide mb-3 font-medium">Código de implementación</p>
-                        <div class="code-block" id="embed-code"></div>
-                        <button class="copy-btn" id="btn-copy" onclick="copiar()">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                            Copiar código
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="py-8 px-8 border-t border-[#1e293b] bg-[#030712] text-sm text-[#64748b] flex justify-between items-center">
-        <p>Odoo Integrations Architecture.</p>
-        <p>System Status: <span class="text-[#10b981]">● Online</span></p>
     </footer>
 
     <script>
+        // Form handling logic
         const N8N_URL = 'http://localhost:5678/webhook/registrar-empresa';
         const campos = ['nombre_empresa', 'odoo_url', 'odoo_db', 'odoo_api_key'];
-        const dots = [dot1, dot2, dot3, dot4, dot5];
+        const dots = [
+            document.getElementById('dot1'),
+            document.getElementById('dot2'),
+            document.getElementById('dot3'),
+            document.getElementById('dot4'),
+            document.getElementById('dot5')
+        ];
 
+        // Update progress bar
         campos.forEach((id, i) => {
-            document.getElementById(id).addEventListener('input', () => {
-                const filled = campos.filter(c => document.getElementById(c).value.trim()).length;
-                dots.forEach((d, j) => {
-                    d.classList.remove('active', 'done');
-                    if (j < filled) d.classList.add('done');
-                    if (j === filled) d.classList.add('active');
+            const el = document.getElementById(id);
+            if(el) {
+                el.addEventListener('input', () => {
+                    const filled = campos.filter(c => document.getElementById(c).value.trim()).length;
+                    dots.forEach((d, j) => {
+                        if(!d) return;
+                        d.className = 'step-bar'; // reset
+                        if (j < filled) d.classList.add('done');
+                        if (j === filled) d.classList.add('active');
+                    });
                 });
-            });
+            }
         });
 
         async function registrar() {
@@ -428,8 +454,11 @@
             }
 
             const btn = document.getElementById('btn-registrar');
-            document.getElementById('btn-text').textContent = 'Registrando...';
-            document.getElementById('spinner').style.display = 'block';
+            const btnText = document.getElementById('btn-text');
+            const spinner = document.getElementById('spinner');
+            
+            btnText.textContent = 'Registrando...';
+            spinner.style.display = 'block';
             btn.disabled = true;
 
             try {
@@ -439,21 +468,22 @@
                     body: JSON.stringify(datos)
                 });
 
+                if (!res.ok) throw new Error('Error en el servidor');
                 const data = await res.json();
 
-                document.getElementById('tenant-id-value').textContent = data.tenant_id;
-                document.getElementById('embed-code').textContent = data.embed_code;
+                document.getElementById('tenant-id-value').textContent = data.tenant_id || 'ID_GENERADO';
+                document.getElementById('embed-code').textContent = data.embed_code || '<!-- Código Embed -->';
 
                 document.getElementById('formulario').style.display = 'none';
                 document.getElementById('resultado').style.display = 'block';
 
-                dots.forEach(d => { d.classList.remove('active'); d.classList.add('done'); });
+                dots.forEach(d => { if(d) d.className = 'step-bar done'; });
 
             } catch (err) {
-                errorEl.textContent = 'Error al conectar con el servidor. ¿Está N8N activo?';
+                errorEl.textContent = 'Error al conectar con el servidor. ¿Está el webhook activo?';
                 errorEl.style.display = 'block';
-                document.getElementById('btn-text').textContent = 'Crear mi chatbot';
-                document.getElementById('spinner').style.display = 'none';
+                btnText.textContent = 'Crear mi chatbot';
+                spinner.style.display = 'none';
                 btn.disabled = false;
             }
         }
@@ -462,16 +492,34 @@
             const code = document.getElementById('embed-code').textContent;
             navigator.clipboard.writeText(code).then(() => {
                 const btn = document.getElementById('btn-copy');
-                btn.textContent = '✓ Copiado';
+                btn.innerHTML = `<svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"></path></svg><span>¡Copiado!</span>`;
                 btn.classList.add('copied');
+                
                 setTimeout(() => {
-                    btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg> Copiar código`;
                     btn.classList.remove('copied');
+                    btn.innerHTML = `<svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg><span>Copiar código</span>`;
                 }, 2000);
             });
         }
+
+        // FAQ Toggle Logic
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const answer = item.querySelector('.faq-answer');
+            const isOpen = item.classList.contains('open');
+
+            // Close all other FAQs
+            document.querySelectorAll('.faq-item').forEach(faq => {
+                faq.classList.remove('open');
+                faq.querySelector('.faq-answer').style.maxHeight = null;
+            });
+
+            // Toggle current FAQ
+            if (!isOpen) {
+                item.classList.add('open');
+                answer.style.maxHeight = answer.scrollHeight + "px";
+            }
+        }
     </script>
-
 </body>
-
 </html>
