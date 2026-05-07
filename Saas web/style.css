@@ -11,16 +11,16 @@
   --surface:    #0f172a;
   --border:     #1e293b;
   --border-mid: #334155;
-  --accent:     #2563eb; /* Blue 600 - better contrast for white text */
-  --accent-lt:  #3b82f6; /* Blue 500 */
+  --accent:     #1d4ed8; /* Blue 700 - super contrast */
+  --accent-lt:  #2563eb; /* Blue 600 */
   --green:      #10b981;
   --yellow:     #eab308;
   --red:        #ef4444;
   --purple:     #a855f7;
-  --text:       #f8fafc;
-  --muted:      #cbd5e1; /* Slate 300 - better contrast */
-  --muted-2:    #94a3b8; /* Slate 400 - passes WCAG */
-  --muted-3:    #94a3b8; /* Slate 400 */
+  --text:       #ffffff; /* Pure white */
+  --muted:      #f1f5f9; /* Slate 100 */
+  --muted-2:    #e2e8f0; /* Slate 200 - extreme contrast */
+  --muted-3:    #cbd5e1; /* Slate 300 */
   --font:       'Inter', sans-serif;
   --mono:       'JetBrains Mono', ui-monospace, monospace;
 }
