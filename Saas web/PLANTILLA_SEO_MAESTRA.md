@@ -172,4 +172,21 @@ Si tu web no la puede leer una persona con discapacidad visual, Google te penali
     Todo `<input id="email">` debe ir acompañado de un `<label for="email">`. Ese atributo `for` conecta el texto con la caja de entrada para que las tecnologías de asistencia sepan qué debe escribir el usuario ahí.
 
 ---
+
+## 8. Diseño Responsive y Mobile-First (Adaptabilidad Móvil) 📱
+
+Google utiliza la indexación "Mobile-First", lo que significa que evalúa y posiciona tu web basándose **exclusivamente** en su versión para móviles. Si tu web no se ve perfecta en móvil, no posicionará.
+
+### Reglas para un Responsive perfecto:
+1.  **Meta Viewport (Obligatorio):**
+    Asegúrate siempre de tener `<meta name="viewport" content="width=device-width, initial-scale=1.0">` en el `<head>` para que la web se adapte al ancho del dispositivo en lugar de mostrar una versión de escritorio en miniatura.
+2.  **Tamaños Fluidos y Legibles:**
+    *   No uses tamaños de letra fijos enormes (`60px`). Usa funciones CSS modernas como `clamp(1.5rem, 5vw, 3rem)` para que el texto escale automáticamente sin romper la pantalla.
+    *   El tamaño mínimo de fuente para lectura debe ser de `16px` (`1rem`) para evitar que el usuario tenga que hacer zoom en el móvil.
+3.  **Zonas Táctiles (Tap Targets):**
+    Los botones y enlaces (`<a>`, `<button>`) deben tener suficiente `padding` para que un dedo pueda pulsarlos fácilmente sin tocar el botón de al lado (idealmente al menos 44x44 píxeles de área interactiva).
+4.  **Cero Scroll Horizontal:**
+    Asegúrate de que no haya elementos que sobresalgan del ancho de la pantalla móvil. Utiliza `max-width: 100%` en imágenes y contenedores, y diseña con cuadrículas (`grid` o `flex`) que pasen a una sola columna en pantallas pequeñas.
+
+---
 *Fin de la guía. Guárdala como referencia para aplicarla como check-list inicial en todos los desarrollos web futuros.*
