@@ -188,5 +188,23 @@ Google utiliza la indexación "Mobile-First", lo que significa que evalúa y pos
 4.  **Cero Scroll Horizontal:**
     Asegúrate de que no haya elementos que sobresalgan del ancho de la pantalla móvil. Utiliza `max-width: 100%` en imágenes y contenedores, y diseña con cuadrículas (`grid` o `flex`) que pasen a una sola columna en pantallas pequeñas.
 
+## 9. GEO (Generative Engine Optimization) 🤖
+
+El **GEO** (Optimización para Motores Generativos) es la evolución natural del SEO. Mientras que el SEO tradicional busca posicionar enlaces en Google, el GEO busca **que las Inteligencias Artificiales (ChatGPT, Perplexity, Google SGE, Copilot) te citen directamente en sus respuestas**.
+
+Para un producto SaaS, aparecer como la "herramienta recomendada" por una IA es el mayor canal de adquisición del futuro.
+
+### ¿Cómo optimizar para GEO?
+1.  **Respuestas Directas (Q&A):**
+    Las IAs buscan respuestas concisas. Estructura partes de tu contenido como Preguntas y Respuestas (FAQ). Responde la pregunta directamente en la primera oración del párrafo y luego elabora.
+2.  **Lenguaje Conversacional y Semántico:**
+    Abandona el *Keyword Stuffing* (repetir palabras clave sin sentido). Escribe de forma natural, explicando conceptos complejos de forma sencilla, ya que los LLM (Modelos de Lenguaje) procesan mejor el texto que fluye lógicamente.
+3.  **Autoridad y Datos Originales (Citas):**
+    A las IAs les encanta citar fuentes fiables. Si incluyes estadísticas originales, casos de estudio numéricos ("Aumenta tus leads un 40%") o tablas comparativas precisas, es mucho más probable que la IA te elija como fuente de referencia.
+4.  **Uso de Listas y Tablas en HTML:**
+    Los modelos generativos sintetizan información fácilmente cuando está estructurada en `<ol>`, `<ul>` o `<table>`. Siempre que puedas resumir beneficios o características, hazlo en viñetas en lugar de en párrafos largos.
+5.  **Profundidad del Contenido:**
+    Las IAs premian el contenido experto (EEAT). No te quedes en la superficie; ofrece guías profundas, opiniones expertas o detalles técnicos que no se encuentran en webs genéricas.
+
 ---
 *Fin de la guía. Guárdala como referencia para aplicarla como check-list inicial en todos los desarrollos web futuros.*
